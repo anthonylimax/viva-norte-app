@@ -8,10 +8,41 @@ const GlobalVariables = {
         light_gray : "#00000010",
         white: "#FFF",
         black: "#3E4341",
-        gray: "#636363"
+        gray: "#636363",
+        blue: "#0566AE"
     }
 }
 
+export const Embbebed = styled.View`
+    display: flex;
+    width: 45px;
+    height: 45px;
+    border-radius: 50px;
+    align-items: center;
+    justify-content: center;
+    background-color: ${GlobalVariables.color.blue};
+`
+
+export const AddressView = styled.View`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 300px;
+    margin: 0 0 20px 0;
+    flex-direction: row;
+`
+export const TextAdressComponent = styled.View`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 4px;
+`
+export const AddressText = styled.Text`
+    font-weight: 600;
+    font-size: 14px;
+    color: ${GlobalVariables.color.blue};
+`
 
 
 export const AnnouncementBox = styled.View`

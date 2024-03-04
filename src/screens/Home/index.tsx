@@ -1,8 +1,12 @@
-import { FlatList, SafeAreaView, StyleSheet, View } from "react-native";
+import { FlatList, SafeAreaView, StyleSheet, TouchableOpacity, View } from "react-native";
 import Announcement from "../../components/Announcement";
 import { AnnouncementDTO } from "../../DTOs/announcement.type";
-import { ScrollView } from "react-native";
+import Animated, {
+    FlipInEasyX, FlipInEasyY
+} from "react-native-reanimated";
 import * as Component from "../../styles";
+import Slider from "../../components/Slider";
+import { useRef, useState } from "react";
 export default function Home(){
 
     const query : AnnouncementDTO[] = [{
@@ -46,14 +50,37 @@ export default function Home(){
         price: 150000
     }
 ]
-
+    const [limit, setLimit] = useState(true);
+    const refIndex = useRef(0);
     return(
         <SafeAreaView style={style.view}>
-                <FlatList showsVerticalScrollIndicator={false} data={query} ItemSeparatorComponent={Component.Separator} renderItem={({item}) =>{
-                    return(<Announcement id={item.id} price={item.price} city={item.city} image={item.image} streetName={item.streetName} neighborHood={item.neighborHood} condominiumName={item.condominiumName} number={item.number}></Announcement>)
+                <Slider></Slider>
+                <FlatList ListHeaderComponent={ListHeaderComponent}  showsVerticalScrollIndicator={false} data={query} ItemSeparatorComponent={Component.Separator} renderItem={({item}) =>{
+                    refIndex.current++;
+                    if(limit && refIndex.current < 3){
+                        return(<Animated.View entering={FlipInEasyY}> 
+                            <Announcement id={item.id} price={item.price} city={item.city} image={item.image} streetName={item.streetName} neighborHood={item.neighborHood} condominiumName={item.condominiumName} number={item.number}></Announcement>
+                        </Animated.View>)
+                      
+                    }
+                    else if(!limit){
+                        return(<Animated.View entering={FlipInEasyY}> 
+                            <Announcement id={item.id} price={item.price} city={item.city} image={item.image} streetName={item.streetName} neighborHood={item.neighborHood} condominiumName={item.condominiumName} number={item.number}></Announcement>
+                        </Animated.View>)
+                    }
                 }}/>
         </SafeAreaView>
     )
+    function ListHeaderComponent(){
+        return (
+            <Component.AddressView>
+                <Component.AddressText style={{fontSize: 20}}>Imóveis para você</Component.AddressText>
+                <TouchableOpacity onPress={()=>{
+                    setLimit(false)
+                }}><Component.AddressText style={{fontSize: 14}}>ver mais</Component.AddressText></TouchableOpacity>
+            </Component.AddressView>
+        )
+    }
 }
 
 const style = StyleSheet.create({
