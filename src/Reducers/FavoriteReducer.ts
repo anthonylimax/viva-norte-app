@@ -1,16 +1,73 @@
 // src/slices/favoriteSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AnnouncementDTO } from "../DTOs/announcement.type";
 
 interface FavoriteState {
   favorites: string[];
+  announcements: AnnouncementDTO[],
+  notification: any[]
 }
 
 const initialState: FavoriteState = {
-  favorites: ["123"],
-};
+  favorites: [],
+  announcements: [
+    {
+      city: "Recife",
+      image: [require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"),],
+      streetName: "Rua do imperador",
+      number: 30,
+      neighborHood: "Tejipio",
+      condominiumName: "Prince Antonio Maia",
+      id: "sadasd",
+      price: 150000
+    },
+    {
+      city: "Recife",
+      image: [require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"),],
+      streetName: "Rua do imperador",
+      number: 30,
+      neighborHood: "Tejipio",
+      condominiumName: "Prince Antonio Maia",
+      id: "432",
+      price: 150000
+    },
+    {
+      city: "Recife",
+      image: [require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"),],
+      streetName: "Rua do imperador",
+      number: 30,
+      neighborHood: "Tejipio",
+      condominiumName: "Prince Antonio Maia",
+      id: "4321",
+      price: 150000
+    },
+    {
+      city: "Recife",
+      image: [require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"),],
+      streetName: "Rua do imperador",
+      number: 30,
+      neighborHood: "Tejipio",
+      condominiumName: "Prince Antonio Maia",
+      id: "123",
+      price: 150000
+    }
+  ],
+  notification: [
+    {
+      title: "Super Desconto!",
+      description: "Baixou o preço dos imóveis nas Graças, Recife-PE. Confira",
+      name: "tag"
+    },
+    {
+      title: "Super Desconto!",
+      description: "Baixou o preço dos imóveis nas Graças, Recife-PE. Confira",
+      name: "tag"
+    },
+  ]
+}
 
 const favoriteSlice = createSlice({
-  name: "favorite",
+  name: "state",
   initialState,
   reducers: {
     addFavorite: (state, action: PayloadAction<string>) => {

@@ -1,19 +1,53 @@
 import styled from "styled-components/native"
 
-const GlobalVariables = {
+export const GlobalVariables = {
     constants:{
         imageAnnouncement: "300px",
     },
     color: {
         light_gray : "#00000010",
         white: "#FFF",
+        light_black: "#17151699",
         black: "#3E4341",
+        medim_black: "#322E2D",
         gray: "#636363",
         blue: "#0566AE"
     }
 }
 
-export const Embbebed = styled.View`
+export const SaveText = styled.Text`
+    width: 100%;
+    padding: 0 20px;
+    margin-bottom: 10px;
+    margin-top: -20px;
+    text-align: left;
+    color: ${GlobalVariables.color.light_black};
+    font-size: 14px;
+    font-weight: 500;
+`
+export const FavoriteTextMediumBlack = styled.Text`
+    width: 100%;
+    padding: 0 20px;
+    text-align: left;
+    color: ${GlobalVariables.color.medim_black};
+    font-size: 24px;
+    font-weight: 700;
+`
+export const TitleHeader = styled.Text`
+    color: ${GlobalVariables.color.blue};
+    font-size: 20px;
+    font-weight: 600;
+`
+
+export const Header = styled.View`
+    display: flex;
+    flex-direction: row;
+    height: 70px;
+    align-items: center;
+    justify-content: center;
+`
+
+export const Embedded = styled.TouchableOpacity`
     display: flex;
     width: 45px;
     height: 45px;
@@ -28,7 +62,6 @@ export const AddressView = styled.View`
     justify-content: space-between;
     align-items: center;
     width: 300px;
-    margin: 0 0 20px 0;
     flex-direction: row;
 `
 export const TextAdressComponent = styled.View`
@@ -92,6 +125,13 @@ export const Separator = styled.View`
     width: 100%;
     height: 1px;
     margin: 40px 0;
+    background-color: ${GlobalVariables.color.light_gray};
+`
+
+export const SeparatorNotification = styled.View`
+    width: 100%;
+    height: 1px;
+    margin: 5px 0;
     background-color: ${GlobalVariables.color.light_gray};
 `
 

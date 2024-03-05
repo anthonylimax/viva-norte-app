@@ -5,22 +5,25 @@ import Entypo from "react-native-vector-icons/Entypo"
 import FontAwesome from "react-native-vector-icons/FontAwesome5"
 import * as Location from "expo-location"
 import { getAddress } from "../../hooks/api"
+import { useNavigation } from "@react-navigation/native"
+import { NavigationProp } from "../../@types/global"
 
-export default function Slider() {
+export default function Slider({navigation} : NavigationProp) {
 
     const [local, setLocal] : [any, any] = useState(null);
     const [err, setErr] = useState(true)
 
 
-
-    useLayoutEffect(() => {
+    useEffect(() => {
         async function GetPermision() {
+            const request = await Location.requestForegroundPermissionsAsync();
             let { status } = await Location.getForegroundPermissionsAsync();
             if (status !== "granted") {
                 setErr(true);
                 return
             }
             let location = await Location.getCurrentPositionAsync();
+            console.log(location)
             getAddress(location.coords.latitude.toString(), location.coords.longitude.toString()).then(result => result).then(data => {
                 setLocal(data)
                 setErr(false)
@@ -38,7 +41,7 @@ export default function Slider() {
 
     return (
         <>
-            <Text style={{color: "#171516", textAlign: "left", width: 300, marginTop: 20}}>Localização</Text>
+            <Text style={{color: "#171516", textAlign: "left", paddingLeft: 50,width: "100%", marginTop: 20}}>Localização</Text>
             <Components.AddressView>
                 <Components.TextAdressComponent>
                     <Entypo color={"#0566AE"} name="location-pin" size={25}></Entypo>
@@ -48,11 +51,16 @@ export default function Slider() {
                         }
                     </Components.AddressText>
                 </Components.TextAdressComponent>
-                <Components.Embbebed>
+                <Components.Embedded onPress={()=>{
+                    if(navigation.getState().index == 0){
+                    navigation.push("notification")
+                    }
+                }}>
                     <FontAwesome name="bell" color={"#FFF"} size={25}></FontAwesome>
-                </Components.Embbebed>
+                </Components.Embedded>
             </Components.AddressView>
         </>
 
     )
-}
+
+} 
