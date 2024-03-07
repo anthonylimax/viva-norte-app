@@ -19,11 +19,11 @@ export default function Favorites() {
                 favorites.length > 0 ? <Components.SaveText>{favorites.length} salvamento{favorites.length > 1 && "s"}</Components.SaveText> : <Components.SaveText>Nenhum anuncio salvo.</Components.SaveText>
             }
             <Components.FavoriteTextMediumBlack>Todos os salvamentos:</Components.FavoriteTextMediumBlack>
-            <FlatList data={query} showsVerticalScrollIndicator={false} renderItem={({ item }) => {
-                if(favorites.includes(item.id)){
+            <FlatList data={query} showsVerticalScrollIndicator={false} renderItem={({ item }) : any => {
+                if(favorites.includes(item.announcement.id_announcement)){
                     return (
                         <Animated.View entering={SlideInRight} exiting={SlideOutRight}>
-                            <Announcement id={item.id} price={item.price} city={item.city} image={item.image} streetName={item.streetName} neighborHood={item.neighborHood} condominiumName={item.condominiumName} number={item.number}></Announcement>
+                            <Announcement {...item}></Announcement>
                             <Components.Separator />
                         </Animated.View>
                     )

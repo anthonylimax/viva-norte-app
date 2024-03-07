@@ -1,54 +1,55 @@
-import { FlatList, SafeAreaView, StyleSheet, TouchableOpacity, View } from "react-native";
+import { FlatList, SafeAreaView, StyleSheet, TouchableOpacity } from "react-native";
 import Announcement from "../../components/Announcement";
 import { AnnouncementDTO } from "../../DTOs/announcement.type";
-import Animated, {SlideInRight, getUseOfValueInStyleWarning
-} from "react-native-reanimated";
+import Animated, { SlideInRight } from "react-native-reanimated";
 import * as Component from "../../styles";
 import Slider from "../../components/Slider";
-import { useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavigationProp } from "../../@types/global";
-import HearthComponent from "../../components/HeathComponent";
-import { getBackgroundPermissionsAsync } from "expo-location";
+import { GetAll } from "../../hooks/requestDb";
+import { addAllAnnouncements } from "../../Reducers/FavoriteReducer";
 
 
-export default function Home({navigation} : NavigationProp){
+
+export default function Home({ navigation }: NavigationProp) {
 
 
-    const data : AnnouncementDTO[] = useSelector((state : any) => state.favorites.announcements)
-    const [query, setQuery] : [ AnnouncementDTO[], any] = useState(data);
-
+    const data: AnnouncementDTO[] = useSelector((state: any) => state.favorites.announcements)
+    const dispatch = useDispatch();
     const [limit, setLimit] = useState(true);
     const refIndex = useRef(0);
-    return(
+    useLayoutEffect(()=>{
+        GetAll().then(x => x.data).then((result)=>{
+        dispatch(addAllAnnouncements(result));
+        });
+    }, [])
+    return (
         <SafeAreaView style={style.view}>
-                <Slider navigation={navigation}></Slider>
-                <FlatList ListHeaderComponent={ListHeaderComponent}  showsVerticalScrollIndicator={false} data={query} ItemSeparatorComponent={Component.Separator} renderItem={({item}) =>{
-                    refIndex.current++;
-                    if(limit && refIndex.current < 3){
-                        return(<Animated.View entering={SlideInRight}> 
-                            <Announcement id={item.id} price={item.price} city={item.city} image={item.image} streetName={item.streetName} neighborHood={item.neighborHood} condominiumName={item.condominiumName} number={item.number}></Announcement>
-                        </Animated.View>)
-                        
-                    }
-                    else if(!limit){
-                        return(<Animated.View entering={SlideInRight}> 
-                            <Announcement id={item.id} price={item.price} city={item.city} image={item.image} streetName={item.streetName} neighborHood={item.neighborHood} condominiumName={item.condominiumName} number={item.number}></Announcement>
-                        </Animated.View>)
-                    }
-                    else{
-                        return null;
-                    } 
-                }}/>
+            <Slider navigation={navigation}></Slider>
+            <FlatList style={style.flatlist} ListHeaderComponent={ListHeaderComponent} showsVerticalScrollIndicator={false} data={data} ItemSeparatorComponent={Component.Separator} renderItem={({ item }) : any => {
+                refIndex.current++;
+                if (limit && refIndex.current < 3) {
+                    return (<Animated.View entering={SlideInRight}>
+                        <Announcement {...item}></Announcement>
+                    </Animated.View>)
+
+                }
+                else if (!limit) {
+                    return (<Animated.View entering={SlideInRight}>
+                        <Announcement {...item}></Announcement>
+                    </Animated.View>)
+                }
+            }} />
         </SafeAreaView>
     )
-    function ListHeaderComponent(){
+    function ListHeaderComponent() {
         return (
             <Component.AddressView>
-                <Component.AddressText style={{fontSize: 20, marginRight: 40}}>Imóveis para você</Component.AddressText>
-                <TouchableOpacity onPress={()=>{
+                <Component.AddressText style={{ fontSize: 20, marginRight: 40 }}>Imóveis para você</Component.AddressText>
+                <TouchableOpacity onPress={() => {
                     setLimit(false)
-                }}><Component.AddressText style={{fontSize: 14}}>ver mais</Component.AddressText></TouchableOpacity>
+                }}><Component.AddressText style={{ fontSize: 14 }}>ver mais</Component.AddressText></TouchableOpacity>
             </Component.AddressView>
         )
     }
@@ -57,7 +58,12 @@ export default function Home({navigation} : NavigationProp){
 const style = StyleSheet.create({
     view: {
         flex: 1,
+        paddingTop: 20,
         alignItems: "center",
         justifyContent: "center"
+    }
+    ,
+    flatlist: {
+
     }
 })

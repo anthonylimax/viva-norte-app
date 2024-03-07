@@ -8,6 +8,7 @@ import FontAwesome6 from "react-native-vector-icons/FontAwesome6";
 import Favorites from './src/screens/favorites';
 import { createStackNavigator } from '@react-navigation/stack';
 import NotificationScreen from './src/screens/NotificationsScreen';
+import AnnouncementScreen from './src/screens/Announcement';
 
 export default function App() {
 
@@ -41,8 +42,9 @@ export default function App() {
     <Stack.Navigator screenOptions={{
       headerShown: false,
     }}>
-      <Stack.Screen name='homeComponent' component={Home}></Stack.Screen>
-      <Stack.Screen name='notification' component={NotificationScreen}></Stack.Screen>
+      <Stack.Screen name='homeComponent' component={Home}/>
+      <Stack.Screen name='notification' component={NotificationScreen} />
+      <Stack.Screen name='announcement' component={AnnouncementScreen} />
     </Stack.Navigator>
     )
   }

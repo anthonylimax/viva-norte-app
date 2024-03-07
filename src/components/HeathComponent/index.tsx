@@ -17,20 +17,8 @@ function HearthComponent({id}: {id: string}){
         }
       }
 
-    return (<Icon onPress={toggleFavorite} size={24} style={container.icon} name={!data.includes(id) ? "heart-o" : "heart"}></Icon>)
+    return (<Icon onPress={toggleFavorite} color={"red"} size={24} name={!data.includes(id) ? "heart-o" : "heart"}></Icon>)
 }
 
-const container = StyleSheet.create({
-    icon: {
-        position: "absolute",
-        top: 20,
-        zIndex: 3,
-        backgroundColor: "#FFFFFF60",
-        padding: 5,
-        borderRadius: 40,
-        color: "#B71415",
-        right: 20,
-    }
-})
 
 export default HearthComponent;
