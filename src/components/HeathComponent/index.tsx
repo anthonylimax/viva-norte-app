@@ -29,7 +29,7 @@ const container = StyleSheet.create({
         padding: 5,
         borderRadius: 40,
         color: "#B71415",
-        right: 20,
+        right: 40,
     }
 })
 

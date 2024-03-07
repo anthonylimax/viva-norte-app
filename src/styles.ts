@@ -66,10 +66,11 @@ export const AddressView = styled.View`
 `
 export const TextAdressComponent = styled.View`
     display: flex;
+    width: 200px;
     align-items: center;
     justify-content: center;
     flex-direction: row;
-    gap: 4px;
+    gap: 0px;
 `
 export const AddressText = styled.Text`
     font-weight: 600;

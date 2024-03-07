@@ -10,48 +10,7 @@ interface FavoriteState {
 
 const initialState: FavoriteState = {
   favorites: [],
-  announcements: [
-    {
-      city: "Recife",
-      image: [require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"),],
-      streetName: "Rua do imperador",
-      number: 30,
-      neighborHood: "Tejipio",
-      condominiumName: "Prince Antonio Maia",
-      id: "sadasd",
-      price: 150000
-    },
-    {
-      city: "Recife",
-      image: [require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"),],
-      streetName: "Rua do imperador",
-      number: 30,
-      neighborHood: "Tejipio",
-      condominiumName: "Prince Antonio Maia",
-      id: "432",
-      price: 150000
-    },
-    {
-      city: "Recife",
-      image: [require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"),],
-      streetName: "Rua do imperador",
-      number: 30,
-      neighborHood: "Tejipio",
-      condominiumName: "Prince Antonio Maia",
-      id: "4321",
-      price: 150000
-    },
-    {
-      city: "Recife",
-      image: [require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"), require("./../../assets/example.png"),],
-      streetName: "Rua do imperador",
-      number: 30,
-      neighborHood: "Tejipio",
-      condominiumName: "Prince Antonio Maia",
-      id: "123",
-      price: 150000
-    }
-  ],
+  announcements: [],
   notification: [
     {
       title: "Super Desconto!",
@@ -70,6 +29,11 @@ const favoriteSlice = createSlice({
   name: "state",
   initialState,
   reducers: {
+    addAllAnnouncements: (state, action: PayloadAction<AnnouncementDTO[]>) =>{
+      action.payload.forEach((element : AnnouncementDTO) => {
+        state.announcements.push(element)
+      })
+    },
     addFavorite: (state, action: PayloadAction<string>) => {
       state.favorites.push(action.payload);
     },
@@ -82,5 +46,5 @@ const favoriteSlice = createSlice({
   },
 });
 
-export const { addFavorite, removeFavorite } = favoriteSlice.actions;
+export const { addFavorite, removeFavorite, addAllAnnouncements } = favoriteSlice.actions;
 export default favoriteSlice.reducer;

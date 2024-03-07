@@ -3,16 +3,18 @@ import * as Component from "../../styles";
 import { AnnouncementDTO } from "../../DTOs/announcement.type";
 import React, { Dispatch, useEffect, useLayoutEffect, useState } from "react";
 import HearthComponent from "../HeathComponent";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 
 
-export default function Announcement({ streetName, condominiumName, city, image, neighborHood, number, price, id }: AnnouncementDTO) {
-
+export default function Announcement( obj : AnnouncementDTO) {
+    const navigate = useNavigation<StackNavigationProp<any>>();
 
     const [balls, setBalls]: [boolean[], any] = useState([]);
     useLayoutEffect(() => {
         const insertBalls: boolean[] = [];
-        image.forEach((e, key) => {
+        obj.pictures.forEach((e, key) => {
             key == 0 ? insertBalls.push(true) : insertBalls.push(false)
         })
         setBalls(insertBalls);
@@ -21,7 +23,7 @@ export default function Announcement({ streetName, condominiumName, city, image,
     const value = new Intl.NumberFormat("pt-BR", {
         style: "currency",
         currency: "BRL"
-    }).format(price)
+    }).format(obj.announcement.price)
 
     function HandleScroller(event: NativeSyntheticEvent<NativeScrollEvent>) {
         const finalBall = Math.round(event.nativeEvent.contentOffset.x / 299);
@@ -39,14 +41,14 @@ export default function Announcement({ streetName, condominiumName, city, image,
 
 
     return (
-        <Component.AnnouncementBox>
+        <Component.AnnouncementBox >
             <View>
-                <HearthComponent id={id} />
+                <HearthComponent id={obj.announcement.id_announcement} />
                 <Component.CarouselImagesAnnouncement
                     scrollEventThrottle={16} onScroll={HandleScroller} showsHorizontalScrollIndicator={false} horizontal>
                     {
-                        image.map((img, key) => {
-                            return (<Component.AnnouncementImage key={key} source={img}></Component.AnnouncementImage>);
+                        obj.pictures.map((img, key) => {
+                            return (<Component.AnnouncementImage key={key} source={{uri: img.url}}></Component.AnnouncementImage>);
                         })
                     }
                 </Component.CarouselImagesAnnouncement>
@@ -73,8 +75,10 @@ export default function Announcement({ streetName, condominiumName, city, image,
                     }
                 </Component.AlignerBallCaurosel>
             </View>
-            <Component.TextAnnouncement>{condominiumName}</Component.TextAnnouncement>
-            <Component.AdressText>{streetName}, {number} - {neighborHood}, {city}.</Component.AdressText>
+            <Component.TextAnnouncement onPress={()=>{
+            navigate.navigate("announcement");
+        }}>{obj.announcement.adress}</Component.TextAnnouncement>
+            <Component.AdressText>{obj.announcement.adress}, {obj.announcement.id_announcement} - {obj.announcement.id_announcement}, {obj.announcement.id_announcement}.</Component.AdressText>
             <Component.Value bold={false}><Component.Value bold={true}>{value}</Component.Value> total sem taxa.</Component.Value>
         </Component.AnnouncementBox>
     );

@@ -4,8 +4,7 @@ import { Text, View } from "react-native"
 import Entypo from "react-native-vector-icons/Entypo"
 import FontAwesome from "react-native-vector-icons/FontAwesome5"
 import * as Location from "expo-location"
-import { getAddress } from "../../hooks/api"
-import { useNavigation } from "@react-navigation/native"
+import { getAddress } from "../../hooks/requestMaps"
 import { NavigationProp } from "../../@types/global"
 
 export default function Slider({navigation} : NavigationProp) {
@@ -41,7 +40,6 @@ export default function Slider({navigation} : NavigationProp) {
 
     return (
         <>
-            <Text style={{color: "#171516", textAlign: "left", paddingLeft: 50,width: "100%", marginTop: 20}}>Localização</Text>
             <Components.AddressView>
                 <Components.TextAdressComponent>
                     <Entypo color={"#0566AE"} name="location-pin" size={25}></Entypo>
