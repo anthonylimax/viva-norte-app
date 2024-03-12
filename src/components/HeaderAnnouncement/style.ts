@@ -4,6 +4,10 @@ import styled from "styled-components/native";
 
 export const HeaderView = styled.View`
     display: flex;
+    top: 10px;
+    position: absolute;
+    width: 100%;
+    height: 50px;
     flex-direction: row;
     align-items: center;
     justify-content: space-around;  
