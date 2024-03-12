@@ -7,7 +7,6 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import Animated, { SlideOutRight } from "react-native-reanimated";
 
-
 export default function Announcement( obj : AnnouncementDTO) {
     const navigate = useNavigation<StackNavigationProp<any>>();
 
@@ -56,6 +55,7 @@ export default function Announcement( obj : AnnouncementDTO) {
                 }}>
                 <HearthComponent id={obj.announcement.id_announcement}/>
                 </View>
+
                 <Component.CarouselImagesAnnouncement
                     scrollEventThrottle={16} onScroll={HandleScroller} showsHorizontalScrollIndicator={false} horizontal>
                     {

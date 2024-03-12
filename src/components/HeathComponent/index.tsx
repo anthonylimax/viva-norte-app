@@ -20,5 +20,4 @@ function HearthComponent({id}: {id: string}){
     return (<Icon onPress={toggleFavorite} color={"red"} size={24} name={!data.includes(id) ? "heart-o" : "heart"}></Icon>)
 }
 
-
 export default HearthComponent;
