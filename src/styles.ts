@@ -12,6 +12,7 @@ export const GlobalVariables = {
     ForTarifsText: "#5D5D5D",
     ForDescription: "#858585",
     medim_black: "#322E2D",
+    ForSubTitle: "#262729",
     ForTitleAnnouncemnt: "#3E4341",
     gray: "#636363",
     blue: "#0566AE",

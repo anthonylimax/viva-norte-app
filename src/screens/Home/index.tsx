@@ -22,6 +22,7 @@ export default function Home({ navigation }: NavigationProp) {
   const dispatch = useDispatch();
   const [limit, setLimit] = useState(true);
   const refIndex = useRef(0);
+
   useLayoutEffect(() => {
     GetAll()
       .then((x) => x.data)
