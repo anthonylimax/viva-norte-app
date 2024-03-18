@@ -20,21 +20,29 @@ import WhatItOffers from "../../components/WhatItOffers";
 import { ScrollView } from "react-native";
 import Maps from "../../components/Map";
 import Whatsapp from "../../components/Whatsapp";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 
-export default function AnnouncementScreen() {
+export default function AnnouncementScreen({
+  navigation,
+  route,
+}: {
+  navigation: any;
+  route: any;
+}) {
   const [pictures, setPictures]: [data: any[], setData: any] = useState([]);
   const [mainImage, setMainImage]: [any | null, any] = useState();
   const [announcement, setAnnouncement]: [any, any] = useState({});
   const [details, setDetails] = useState([]);
+
+  const [showAll, setShowAll] = useState(false);
   useLayoutEffect(() => {
-    SingleAnnouncement("4f651f4a-0268-4782-87bb-0db50ca08d02").then(
-      ({ data }) => {
-        setAnnouncement(data.announcement);
-        setDetails(data.details);
-        setPictures(data.pictures);
-        setMainImage(data.pictures[0]);
-      }
-    );
+    SingleAnnouncement(route.params.id).then(({ data }) => {
+      setAnnouncement(data.announcement);
+      setDetails(data.details);
+      setPictures(data.pictures);
+      setMainImage(data.pictures[0]);
+    });
   }, []);
   if (mainImage) {
     return (
@@ -46,7 +54,12 @@ export default function AnnouncementScreen() {
 
         <Image
           source={{ uri: mainImage.url }}
-          style={{ width: "100%", height: 400 }}
+          style={{
+            width: "100%",
+            height: 400,
+            borderBottomLeftRadius: 20,
+            borderBottomRightRadius: 20,
+          }}
         />
 
         <View
@@ -67,7 +80,7 @@ export default function AnnouncementScreen() {
             horizontal
             data={pictures}
             renderItem={({ item, index }): any => {
-              if (index < 4) {
+              if (index < 4 || showAll) {
                 return (
                   <TouchableOpacity
                     activeOpacity={0.8}
@@ -94,11 +107,13 @@ export default function AnnouncementScreen() {
                     </View>
                   </TouchableOpacity>
                 );
-              } else if (index == 4) {
+              } else if (index == 4 && !showAll) {
                 return (
                   <TouchableOpacity
                     activeOpacity={0.8}
-                    onPress={() => setMainImage(item)}
+                    onPress={() => {
+                      setShowAll(true);
+                    }}
                   >
                     <View
                       style={{

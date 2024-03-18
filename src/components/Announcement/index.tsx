@@ -115,16 +115,14 @@ export default function Announcement(obj: AnnouncementDTO) {
         </View>
         <Component.TextAnnouncement
           onPress={() => {
-            navigate.navigate("announcement");
+            navigate.navigate("announcement", {
+              id: obj.announcement.id_announcement,
+            });
           }}
         >
           {obj.announcement.adress}
         </Component.TextAnnouncement>
-        <Component.AdressText>
-          {obj.announcement.adress}, {obj.announcement.id_announcement} -{" "}
-          {obj.announcement.id_announcement}, {obj.announcement.id_announcement}
-          .
-        </Component.AdressText>
+        <Component.AdressText>{obj.announcement.adress}.</Component.AdressText>
         <Component.Value bold={false}>
           <Component.Value bold={true}>{value}</Component.Value> total sem taxa.
         </Component.Value>

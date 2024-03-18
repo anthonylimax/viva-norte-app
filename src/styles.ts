@@ -29,7 +29,13 @@ export const SaveText = styled.Text`
   font-size: 14px;
   font-weight: 500;
 `;
-
+export const TextField = styled.TextInput`
+  width: 100%;
+  padding: 10px;
+  font-size: 18px;
+  border: 1px solid black;
+  border-radius: 12px;
+`;
 export const Description = styled.Text`
   font-size: 14px;
   font-weight: 400;

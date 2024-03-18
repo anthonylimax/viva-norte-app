@@ -9,6 +9,9 @@ import Favorites from "./src/screens/favorites";
 import { createStackNavigator } from "@react-navigation/stack";
 import NotificationScreen from "./src/screens/NotificationsScreen";
 import AnnouncementScreen from "./src/screens/Announcement";
+import Search from "./src/screens/Search";
+import Login from "./src/screens/Login";
+import Profile from "./src/screens/Profile";
 
 export default function App() {
   const Tab = createBottomTabNavigator();
@@ -31,8 +34,8 @@ export default function App() {
         >
           <Tab.Screen name="house" component={HomeStack} />
           <Tab.Screen name="heart" component={Favorites} />
-          <Tab.Screen name="magnifying-glass" component={Home} />
-          <Tab.Screen name="user" component={Home} />
+          <Tab.Screen name="magnifying-glass" component={Search} />
+          <Tab.Screen name="user" component={Profile} />
         </Tab.Navigator>
       </NavigationContainer>
     </Provider>
@@ -47,6 +50,7 @@ export default function App() {
         }}
       >
         <Stack.Screen name="homeComponent" component={Home} />
+        <Stack.Screen name="login" component={Login} />
         <Stack.Screen name="notification" component={NotificationScreen} />
         <Stack.Screen name="announcement" component={AnnouncementScreen} />
       </Stack.Navigator>
