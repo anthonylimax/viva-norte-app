@@ -3,6 +3,9 @@ import { StyleSheet } from "react-native";
 import { addFavorite, removeFavorite } from "./../../Reducers/FavoriteReducer";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useRef } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 function HearthComponent({
   id,
@@ -13,6 +16,25 @@ function HearthComponent({
   onPress?: any;
   color?: string;
 }) {
+  const navigate = useNavigation<StackNavigationProp<any>>();
+  const getKey = async () => {
+    try {
+      const key = await AsyncStorage.getItem("token");
+      if (key !== null) {
+        if (data.includes(id)) {
+          dispatch(removeFavorite(id));
+        } else {
+          dispatch(addFavorite(id));
+        }
+      } else {
+        if (navigate.getState().index == 0) {
+          navigate.push("login");
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
   const data: any[] = useSelector((state: any) => state.favorites.favorites);
   const numRef = useRef(0);
   useEffect(() => {
@@ -27,12 +49,7 @@ function HearthComponent({
   const dispatch = useDispatch();
 
   function toggleFavorite() {
-    if (data.includes(id)) {
-      dispatch(removeFavorite(id));
-    } else {
-      dispatch(addFavorite(id));
-    }
-    console.log(data);
+    getKey();
   }
 
   return (

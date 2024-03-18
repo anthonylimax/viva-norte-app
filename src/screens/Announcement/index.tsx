@@ -26,6 +26,7 @@ export default function AnnouncementScreen() {
   const [mainImage, setMainImage]: [any | null, any] = useState();
   const [announcement, setAnnouncement]: [any, any] = useState({});
   const [details, setDetails] = useState([]);
+  const [showAll, setShowAll] = useState(false);
   useLayoutEffect(() => {
     SingleAnnouncement("4f651f4a-0268-4782-87bb-0db50ca08d02").then(
       ({ data }) => {
@@ -46,7 +47,12 @@ export default function AnnouncementScreen() {
 
         <Image
           source={{ uri: mainImage.url }}
-          style={{ width: "100%", height: 400 }}
+          style={{
+            width: "100%",
+            height: 400,
+            borderBottomLeftRadius: 20,
+            borderBottomRightRadius: 20,
+          }}
         />
 
         <View
@@ -67,7 +73,7 @@ export default function AnnouncementScreen() {
             horizontal
             data={pictures}
             renderItem={({ item, index }): any => {
-              if (index < 4) {
+              if (index < 4 || showAll) {
                 return (
                   <TouchableOpacity
                     activeOpacity={0.8}
@@ -94,11 +100,13 @@ export default function AnnouncementScreen() {
                     </View>
                   </TouchableOpacity>
                 );
-              } else if (index == 4) {
+              } else if (index == 4 && !showAll) {
                 return (
                   <TouchableOpacity
                     activeOpacity={0.8}
-                    onPress={() => setMainImage(item)}
+                    onPress={() => {
+                      setShowAll(true);
+                    }}
                   >
                     <View
                       style={{
