@@ -16,7 +16,6 @@ export default function Search() {
       setResult(result);
     });
   }, [search]);
-
   return (
     <SafeAreaView style={style.container}>
       <View style={style.containerSearch}>

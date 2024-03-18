@@ -34,7 +34,10 @@ export default function AnnouncementScreen({
   const [mainImage, setMainImage]: [any | null, any] = useState();
   const [announcement, setAnnouncement]: [any, any] = useState({});
   const [details, setDetails] = useState([]);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3a091cc503baf74cbe701dfcf407bff7ccc0d12b
   const [showAll, setShowAll] = useState(false);
   useLayoutEffect(() => {
     SingleAnnouncement(route.params.id).then(({ data }) => {
