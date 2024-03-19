@@ -6,7 +6,7 @@ export const HeaderView = styled.View`
   z-index: 3;
   position: absolute;
   width: 100%;
-  height: 50px;
+  height: 90px;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;

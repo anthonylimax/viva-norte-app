@@ -12,6 +12,7 @@ import AnnouncementScreen from "./src/screens/Announcement";
 import Search from "./src/screens/Search";
 import Login from "./src/screens/Login";
 import Profile from "./src/screens/Profile";
+import Signin from "./src/screens/Signin";
 
 export default function App() {
   const Tab = createBottomTabNavigator();
@@ -49,8 +50,9 @@ export default function App() {
           headerShown: false,
         }}
       >
-        <Stack.Screen name="homeComponent" component={Home} />
         <Stack.Screen name="login" component={Login} />
+        <Stack.Screen name="signin" component={Signin} />
+        <Stack.Screen name="homeComponent" component={Home} />
         <Stack.Screen name="notification" component={NotificationScreen} />
         <Stack.Screen name="announcement" component={AnnouncementScreen} />
       </Stack.Navigator>

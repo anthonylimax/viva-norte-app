@@ -33,7 +33,7 @@ export default function Profile() {
     nasc_data: "",
     phone: "",
     password: "",
-    picture: "",
+    picture: require("./../../../assets/profile_image.png"),
   });
   useEffect(() => {
     async function GetStorage() {

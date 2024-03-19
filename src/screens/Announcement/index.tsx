@@ -20,8 +20,6 @@ import WhatItOffers from "../../components/WhatItOffers";
 import { ScrollView } from "react-native";
 import Maps from "../../components/Map";
 import Whatsapp from "../../components/Whatsapp";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
 
 export default function AnnouncementScreen({
   navigation,
@@ -34,10 +32,6 @@ export default function AnnouncementScreen({
   const [mainImage, setMainImage]: [any | null, any] = useState();
   const [announcement, setAnnouncement]: [any, any] = useState({});
   const [details, setDetails] = useState([]);
-<<<<<<< HEAD
-
-=======
->>>>>>> 3a091cc503baf74cbe701dfcf407bff7ccc0d12b
   const [showAll, setShowAll] = useState(false);
   useLayoutEffect(() => {
     SingleAnnouncement(route.params.id).then(({ data }) => {
