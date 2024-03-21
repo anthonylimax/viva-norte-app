@@ -1,12 +1,12 @@
-import {configureStore} from "@reduxjs/toolkit"
+import { configureStore } from "@reduxjs/toolkit";
 import FavoriteReducer from "../Reducers/FavoriteReducer";
+import LoggedReducer from "../Reducers/LoggedReducer";
 
 const favoriteStore = configureStore({
-    reducer: {
-        favorites: FavoriteReducer
-    },
+  reducer: {
+    favorites: FavoriteReducer,
+    logged: LoggedReducer,
+  },
 });
 
 export default favoriteStore;
-
-

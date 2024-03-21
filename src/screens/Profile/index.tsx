@@ -14,6 +14,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image } from "expo-image";
 import { useEffect, useState } from "react";
 import FontAwesome6 from "react-native-vector-icons/FontAwesome6";
+import { setLogged } from "../../Reducers/LoggedReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { RemoveAllFavorites } from "../../Reducers/FavoriteReducer";
 type ProfileData = {
   email: string;
   id: string;
@@ -35,16 +38,20 @@ export default function Profile() {
     password: "",
     picture: require("./../../../assets/profile_image.png"),
   });
+  const profile: any = useSelector((state: any) => state.logged.logged);
+  console.log(profile);
+  const dispatch = useDispatch();
   useEffect(() => {
     async function GetStorage() {
       const data = await AsyncStorage.getItem("token");
       if (data !== null) {
         const json = JSON.parse(data)[0];
         setData(json);
+        dispatch(setLogged(false));
       }
     }
     GetStorage();
-  }, []);
+  }, [profile]);
 
   function convertToYear(data: string) {
     let text = "";
@@ -125,6 +132,32 @@ export default function Profile() {
           {convertToYear(data.nasc_data)}
         </Style.TextComponent>
       </View>
+      <Style.LogoutButton
+        onPress={async () => {
+          AsyncStorage.removeItem("token");
+          setData({
+            email: "",
+            id: "",
+            name: "",
+            nasc_data: "00/00/0000",
+            phone: "",
+            password: "",
+            picture: require("./../../../assets/profile_image.png"),
+          });
+          dispatch(RemoveAllFavorites({}));
+        }}
+      >
+        <Text
+          style={{
+            width: "100%",
+            textAlign: "center",
+            color: "white",
+            fontWeight: "700",
+          }}
+        >
+          LOGOUT
+        </Text>
+      </Style.LogoutButton>
     </SafeAreaView>
   );
 }

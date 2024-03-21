@@ -17,9 +17,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GlobalVariables } from "../../styles";
 import Animated from "react-native-reanimated";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { useDispatch } from "react-redux";
+import { setLogged } from "../../Reducers/LoggedReducer";
 export default function Login() {
   const navigate = useNavigation<StackNavigationProp<any>>();
   const [error, setError] = useState(false);
+  const dispatch = useDispatch();
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -102,6 +105,8 @@ export default function Login() {
             console.log(data);
             if (data) {
               AsyncStorage.setItem("token", JSON.stringify(data));
+
+              dispatch(setLogged(true));
               navigate.goBack();
             } else {
               setError(true);

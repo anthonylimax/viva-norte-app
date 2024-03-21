@@ -16,7 +16,7 @@
       "expo-router"
     ],
     "name": "Vivanorte",
-    "slug": "vivanorte",
+    "slug": "viva-norte",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
@@ -26,18 +26,36 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anthonylimax.vivanorte"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo_adaptive.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ],
+      "package": "com.anthonylimax.vivanorte"
     },
     "web": {
       "favicon": "./assets/logo.png"
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "f7a65122-1e2d-4936-926b-08c2335c2447"
+      }
+    },
+    "owner": "anthonylimax"
   }
 }

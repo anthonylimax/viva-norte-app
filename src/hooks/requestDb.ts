@@ -27,6 +27,51 @@ export async function SingleAnnouncement(id: string) {
   const result = await apiURL.post("/announcement/id", { id });
   return result;
 }
+
+export async function InsertFavorites(
+  id_user: string,
+  id_announcement: string
+) {
+  const result = await apiURL.post("/setFavorite", {
+    id_user,
+    id_announcement,
+    type: "add",
+  });
+  console.log({
+    id_user,
+    id_announcement,
+    type: "add",
+  });
+  return result;
+}
+
+export async function RemoveFavorite(id_user: string, id_announcement: string) {
+  const result = await apiURL.post("/setFavorite", {
+    id_user,
+    id_announcement,
+    type: "remove",
+  });
+  console.log({
+    id_user,
+    id_announcement,
+    type: "remove",
+  });
+  return result.data;
+}
+
+export async function GetFavorites(id: string) {
+  try {
+    const result = await apiURL.post("/getFavorites", { id });
+    if (result !== undefined) {
+      return result.data;
+    } else {
+      return [];
+    }
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export async function SignIn(credentials: {
   name: string;
   cpf: string;
@@ -37,7 +82,7 @@ export async function SignIn(credentials: {
   picture: any;
 }) {
   try {
-    const form = new FormData();
+    const formData = new FormData();
     const credentialsData = {
       name: credentials.name,
       password: credentials.password,
@@ -46,32 +91,28 @@ export async function SignIn(credentials: {
       phone: credentials.phone,
       date: credentials.date,
     };
-    console.log(credentials);
-    form.append("content", JSON.stringify(credentialsData));
-    if (credentials.picture) {
-      form.append("file", credentials.picture);
-    }
-    const request = apiURL.post("/createNewUser", form, {
+
+    formData.append(
+      "file",
+      JSON.stringify({
+        uri: credentials.picture.uri,
+        name: "photo.jpg", // Nome do arquivo
+        type: credentials.picture.type, // Tipo da imagem
+      })
+    );
+
+    formData.append("content", JSON.stringify(credentialsData));
+
+    const response = await apiURL.post("/createnewuser", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
-    const result = await request;
-    const data = result.data;
-    if ((await data?.status) == "completed") {
-      const json = await VerifyCredentials({
-        email: credentials.email,
-        password: credentials.password,
-      });
-      setTimeout(() => {
-        AsyncStorage.setItem("token", JSON.parse(json));
-      });
-    } else {
-      console.log("erro aqui");
-      return false;
-    }
-  } catch (e) {
-    console.log("erro", e);
+
+    console.log(response.data);
+    return true; // Ou outra manipulação de sucesso
+  } catch (error) {
+    console.error("Erro:", error);
     return false;
   }
 }

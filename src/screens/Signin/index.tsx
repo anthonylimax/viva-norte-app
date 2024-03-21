@@ -21,10 +21,14 @@ import * as Style from "./../Login/style";
 import { useState } from "react";
 import FontAwesome6 from "react-native-vector-icons/FontAwesome6";
 import Entypo from "react-native-vector-icons/Entypo";
-import { SignIn } from "../../hooks/requestDb";
+import { SignIn, VerifyCredentials } from "../../hooks/requestDb";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { StackNavigationProp } from "@react-navigation/stack";
+import LoggedReducer, { setLogged } from "../../Reducers/LoggedReducer";
+import { useDispatch } from "react-redux";
 
 export default function Signin() {
-  const navigator = useNavigation();
+  const navigator = useNavigation<StackNavigationProp<any>>();
   const [click, setClick] = useState(false);
   const [credentials, setCredentials] = useState({
     email: "",
@@ -249,6 +253,18 @@ export default function Signin() {
               ...credentials,
               picture: toSend,
             });
+            if (result) {
+              const res = await VerifyCredentials({
+                email: credentials.email,
+                password: credentials.password,
+              });
+              if (res) {
+                AsyncStorage.setItem("token", JSON.stringify(res));
+                const dispatch = useDispatch();
+                dispatch(setLogged(true));
+                navigator.navigate("homeComponent");
+              }
+            }
           }}
         >
           <Text>NASDOANDS</Text>
