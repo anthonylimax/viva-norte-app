@@ -6,17 +6,22 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   View,
+  Image as Img,
+  Pressable,
 } from "react-native";
 import * as Style from "./style";
 import { Description, GlobalVariables, Header, TextField } from "../../styles";
 import { LabelCredential, TextTitle } from "../Login/style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image } from "expo-image";
-import { useEffect, useState } from "react";
+import { Component, useEffect, useState } from "react";
 import FontAwesome6 from "react-native-vector-icons/FontAwesome6";
 import { setLogged } from "../../Reducers/LoggedReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { RemoveAllFavorites } from "../../Reducers/FavoriteReducer";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { SingleConsult } from "../../hooks/requestDb";
 type ProfileData = {
   email: string;
   id: string;
@@ -28,6 +33,10 @@ type ProfileData = {
 };
 
 export default function Profile() {
+  const [result, setResult]: [result: AnnouncementDTO[], setResult: any] =
+    useState([]);
+
+  const navigator = useNavigation<StackNavigationProp<any>>();
   const [modal, setModal] = useState(false);
   const [data, setData]: [data: ProfileData, setData: any] = useState({
     email: "",
@@ -39,19 +48,24 @@ export default function Profile() {
     picture: require("./../../../assets/profile_image.png"),
   });
   const profile: any = useSelector((state: any) => state.logged.logged);
-  console.log(profile);
   const dispatch = useDispatch();
   useEffect(() => {
     async function GetStorage() {
       const data = await AsyncStorage.getItem("token");
-      if (data !== null) {
-        const json = JSON.parse(data)[0];
-        setData(json);
-        dispatch(setLogged(false));
+      const json = JSON.parse(data)[0];
+      setData(json);
+      if (data && !profile) {
+        dispatch(setLogged(true));
       }
     }
     GetStorage();
   }, [profile]);
+  useEffect(() => {
+    SingleConsult(search).then((result) => {
+      console.log(result);
+      setResult(result);
+    });
+  }, [search]);
 
   function convertToYear(data: string) {
     let text = "";
@@ -64,7 +78,7 @@ export default function Profile() {
     }
     return text;
   }
-  return (
+  return profile ? (
     <SafeAreaView>
       <Header>
         <TextTitle style={{ fontWeight: "400" }}>Minha conta</TextTitle>
@@ -134,7 +148,8 @@ export default function Profile() {
       </View>
       <Style.LogoutButton
         onPress={async () => {
-          AsyncStorage.removeItem("token");
+          await AsyncStorage.removeItem("token");
+          dispatch(setLogged(false));
           setData({
             email: "",
             id: "",
@@ -158,6 +173,78 @@ export default function Profile() {
           LOGOUT
         </Text>
       </Style.LogoutButton>
+    </SafeAreaView>
+  ) : (
+    <SafeAreaView
+      style={{
+        display: "flex",
+        height: "100%",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Img
+        style={{
+          width: 160,
+          marginTop: 20,
+          objectFit: "contain",
+          alignSelf: "center",
+        }}
+        source={require("./../../../assets/logo.png")}
+      ></Img>
+      <Text
+        style={{
+          alignSelf: "center",
+          width: "90%",
+          textAlign: "center",
+          color: GlobalVariables.color.ForSubTitle,
+          fontSize: 16,
+        }}
+      >
+        Crie uma conta para desfrutar de todas as funcionalidades do aplicativo.
+      </Text>
+      <Pressable
+        style={{
+          marginTop: 20,
+          backgroundColor: GlobalVariables.color.blue,
+          height: 40,
+          width: 160,
+          borderRadius: 10,
+          alignItems: "center",
+          justifyContent: "center",
+          borderWidth: StyleSheet.hairlineWidth + 1,
+          borderColor: GlobalVariables.color.blue,
+        }}
+        onPress={() => {
+          navigator.navigate("login");
+        }}
+      >
+        <Text
+          style={{
+            color: "white",
+            fontSize: 20,
+          }}
+        >
+          Entrar
+        </Text>
+      </Pressable>
+      <Pressable
+        style={{
+          marginTop: 10,
+        }}
+        onPress={() => {
+          navigator.navigate("signin");
+        }}
+      >
+        <Text
+          style={{
+            color: GlobalVariables.color.blue,
+            fontSize: 14,
+          }}
+        >
+          Cadastrar-se
+        </Text>
+      </Pressable>
     </SafeAreaView>
   );
 }

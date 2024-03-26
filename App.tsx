@@ -35,7 +35,6 @@ export default function App() {
         >
           <Tab.Screen name="house" component={HomeStack} />
           <Tab.Screen name="heart" component={Favorites} />
-          <Tab.Screen name="magnifying-glass" component={Search} />
           <Tab.Screen name="user" component={Profile} />
         </Tab.Navigator>
       </NavigationContainer>

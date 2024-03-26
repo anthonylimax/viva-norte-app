@@ -41,12 +41,12 @@ export default function AnnouncementScreen({
       setMainImage(data.pictures[0]);
     });
   }, []);
-  if (mainImage) {
+  if (mainImage && announcement) {
     return (
       <ScrollView style={styles.view}>
         <HeaderAnnouncement
-          announcementName={"Paraiso Tropical"}
-          id={"4f651f4a-0268-4782-87bb-0db50ca08d02"}
+          announcementName={announcement.name || "paraiso"}
+          id={announcement.id_announcement}
         ></HeaderAnnouncement>
 
         <Image

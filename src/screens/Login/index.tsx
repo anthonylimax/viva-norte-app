@@ -28,7 +28,7 @@ export default function Login() {
     password: "",
   });
   return (
-    <SafeAreaView renderToHardwareTextureAndroid style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StyledComponents.Header>
         <Ionicons
           onPress={() => navigate.goBack()}
@@ -102,7 +102,6 @@ export default function Login() {
         onPress={() => {
           const fetching = async () => {
             const data = await VerifyCredentials(credentials);
-            console.log(data);
             if (data) {
               AsyncStorage.setItem("token", JSON.stringify(data));
 

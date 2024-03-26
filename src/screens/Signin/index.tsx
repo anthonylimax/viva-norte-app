@@ -1,6 +1,5 @@
 import {
   Pressable,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -8,10 +7,9 @@ import {
   View,
 } from "react-native";
 import { Header, LabelCredential, TextTitle } from "../Login/style";
-import { Description, Embedded, GlobalVariables } from "../../styles";
+import { Description, GlobalVariables } from "../../styles";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
-import { Image } from "expo-image";
 import {
   MediaTypeOptions,
   launchCameraAsync,
@@ -19,12 +17,11 @@ import {
 } from "expo-image-picker";
 import * as Style from "./../Login/style";
 import { useState } from "react";
-import FontAwesome6 from "react-native-vector-icons/FontAwesome6";
 import Entypo from "react-native-vector-icons/Entypo";
 import { SignIn, VerifyCredentials } from "../../hooks/requestDb";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StackNavigationProp } from "@react-navigation/stack";
-import LoggedReducer, { setLogged } from "../../Reducers/LoggedReducer";
+import { setLogged } from "../../Reducers/LoggedReducer";
 import { useDispatch } from "react-redux";
 
 export default function Signin() {
@@ -154,44 +151,7 @@ export default function Signin() {
           Crie sua conta para poder ter acesso as demais funcionalidades,
           adicionar imóveis aos favoritos, contato com os corretores e mais.
         </Description>
-        <TouchableOpacity
-          onPress={handlePicture}
-          style={{
-            width: 120,
-            height: 120,
-            alignSelf: "center",
-            marginBottom: 40,
-          }}
-        >
-          <Image
-            style={{
-              position: "relative",
-              width: 120,
-              height: 120,
-              alignSelf: "center",
-              margin: 30,
-              zIndex: 0,
-              borderRadius: 120,
-            }}
-            source={
-              picture ? picture : require("./../../../assets/profile_image.png")
-            }
-          />
-          <View
-            style={{
-              position: "absolute",
-              bottom: -30,
-              right: 0,
-              borderRadius: 50,
-              borderWidth: StyleSheet.hairlineWidth + 2,
-              borderColor: "white",
-              backgroundColor: GlobalVariables.color.blue,
-              padding: 7,
-            }}
-          >
-            <FontAwesome6 name="pen" size={10} color={"white"}></FontAwesome6>
-          </View>
-        </TouchableOpacity>
+
         <View style={{ paddingHorizontal: 20, paddingVertical: 5 }}>
           <LabelCredential>Nome</LabelCredential>
           <Style.TextField
@@ -248,10 +208,10 @@ export default function Signin() {
           ></Style.TextField>
         </View>
         <TouchableOpacity
+          style={style.button}
           onPress={async () => {
             const result = await SignIn({
               ...credentials,
-              picture: toSend,
             });
             if (result) {
               const res = await VerifyCredentials({
@@ -267,13 +227,26 @@ export default function Signin() {
             }
           }}
         >
-          <Text>NASDOANDS</Text>
+          <Text style={{ color: "white", fontSize: 18, fontWeight: "600" }}>
+            Cadastrar-se
+          </Text>
         </TouchableOpacity>
       </ScrollView>
     </>
   );
 }
 const style = StyleSheet.create({
+  button: {
+    height: 50,
+    marginTop: 20,
+    alignSelf: "center",
+    display: "flex",
+    paddingHorizontal: 30,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 10,
+    backgroundColor: GlobalVariables.color.blue,
+  },
   container: {
     paddingHorizontal: 20,
     marginTop: 20,
@@ -281,6 +254,7 @@ const style = StyleSheet.create({
   description: {
     marginTop: -10,
     marginLeft: 0,
+    marginBottom: 30,
     width: "100%",
     textAlign: "center",
   },

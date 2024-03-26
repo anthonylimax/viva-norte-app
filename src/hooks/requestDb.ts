@@ -51,11 +51,7 @@ export async function RemoveFavorite(id_user: string, id_announcement: string) {
     id_announcement,
     type: "remove",
   });
-  console.log({
-    id_user,
-    id_announcement,
-    type: "remove",
-  });
+
   return result.data;
 }
 
@@ -79,7 +75,6 @@ export async function SignIn(credentials: {
   email: string;
   password: string;
   date: string;
-  picture: any;
 }) {
   try {
     const formData = new FormData();
@@ -91,15 +86,6 @@ export async function SignIn(credentials: {
       phone: credentials.phone,
       date: credentials.date,
     };
-
-    formData.append(
-      "file",
-      JSON.stringify({
-        uri: credentials.picture.uri,
-        name: "photo.jpg", // Nome do arquivo
-        type: credentials.picture.type, // Tipo da imagem
-      })
-    );
 
     formData.append("content", JSON.stringify(credentialsData));
 

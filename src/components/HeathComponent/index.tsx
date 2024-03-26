@@ -25,10 +25,8 @@ function HearthComponent({
         if (data.includes(id)) {
           dispatch(removeFavorite(id));
           const token = await AsyncStorage.getItem("token");
-          console.log(token);
           if (token) {
             const json = JSON.parse(token)[0].id;
-            console.log(json);
             RemoveFavorite(json, id);
           }
         } else {
@@ -36,14 +34,11 @@ function HearthComponent({
           const token = await AsyncStorage.getItem("token");
           if (token) {
             const json = JSON.parse(token)[0].id;
-            console.log(json);
             InsertFavorites(json, id);
           }
         }
       } else {
-        if (navigate.getState().index == 0) {
-          navigate.push("login");
-        }
+        navigate.push("login");
       }
     } catch (e) {
       console.log(e);
