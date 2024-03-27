@@ -11,7 +11,7 @@ import React, { Dispatch, useEffect, useLayoutEffect, useState } from "react";
 import HearthComponent from "../HeathComponent";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import Animated, { SlideOutRight } from "react-native-reanimated";
+import Animated, { FadeIn, SlideOutRight } from "react-native-reanimated";
 
 export default function Announcement(obj: AnnouncementDTO) {
   const navigate = useNavigation<StackNavigationProp<any>>();
@@ -44,7 +44,7 @@ export default function Announcement(obj: AnnouncementDTO) {
   }
 
   return (
-    <Animated.View exiting={SlideOutRight}>
+    <Animated.View entering={FadeIn}>
       <Component.AnnouncementBox>
         <View>
           <View

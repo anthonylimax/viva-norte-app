@@ -9,7 +9,6 @@ import Favorites from "./src/screens/favorites";
 import { createStackNavigator } from "@react-navigation/stack";
 import NotificationScreen from "./src/screens/NotificationsScreen";
 import AnnouncementScreen from "./src/screens/Announcement";
-import Search from "./src/screens/Search";
 import Login from "./src/screens/Login";
 import Profile from "./src/screens/Profile";
 import Signin from "./src/screens/Signin";

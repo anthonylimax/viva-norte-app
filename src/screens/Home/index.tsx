@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   View,
   Image,
+  LayoutAnimation,
+  Modal,
 } from "react-native";
 import Announcement from "../../components/Announcement";
 import { AnnouncementDTO } from "../../DTOs/announcement.type";
@@ -21,7 +23,7 @@ import { GetAll, SingleConsult } from "../../hooks/requestDb";
 import { addAllAnnouncements } from "../../Reducers/FavoriteReducer";
 import Entypo from "react-native-vector-icons/Entypo";
 import { ScrollView } from "react-native-gesture-handler";
-
+import Search from "../../components/Search";
 export default function Home({ navigation }: NavigationProp) {
   const data: AnnouncementDTO[] = useSelector(
     (state: any) => state.favorites.announcements
@@ -29,8 +31,12 @@ export default function Home({ navigation }: NavigationProp) {
   const [result, setResult]: [result: AnnouncementDTO[], setResult: any] =
     useState([]);
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState({
+    name: "",
+    filters: {},
+  });
   const [onFocus, setOnFocus] = useState(false);
+  const [pressFilter, setPressFilter] = useState(false);
   const dispatch = useDispatch();
   const [limit, setLimit] = useState(true);
   const refIndex = useRef(0);
@@ -57,10 +63,15 @@ export default function Home({ navigation }: NavigationProp) {
   }, []);
 
   useEffect(() => {
-    SingleConsult(search).then((result) => {
-      console.log(result);
-      setResult(result);
-    });
+    SingleConsult(search.filters)
+      .then((result: AnnouncementDTO[]) => {
+        const s = result.filter((x) =>
+          x.announcement.adress.match(search.name)
+        );
+
+        setResult(s);
+      })
+      .catch((e) => console.log(e));
   }, [search]);
   return (
     <ScrollView style={style.view}>
@@ -73,18 +84,37 @@ export default function Home({ navigation }: NavigationProp) {
             console.log(onFocus);
           }}
           onBlur={() => {
-            if (search.length == 0) {
+            if (
+              search.name.length == 0 ||
+              Object.keys(search.filters).length == 0
+            ) {
               setOnFocus(false);
             }
           }}
-          onChangeText={(e) => setSearch(e)}
+          onChangeText={(e) => setSearch({ ...search, name: e })}
           placeholder="Pesquise por Bairro ou cidade"
           style={style.searchBar}
         ></TextInput>
-        <Pressable>
+        <Pressable
+          onPress={() => {
+            setOnFocus(true);
+            setPressFilter(true);
+          }}
+        >
           <Image source={require("./../../../assets/filter.png")} />
         </Pressable>
       </View>
+      <Modal
+        visible={pressFilter}
+        onRequestClose={() => {
+          setPressFilter(false);
+          if (Object.keys(search.filters).length == 0) {
+            setOnFocus(false);
+          }
+        }}
+      >
+        <Search setModal={setPressFilter} data={search} setData={setSearch} />
+      </Modal>
       {!onFocus && (
         <>
           <FlatList
@@ -150,18 +180,20 @@ export default function Home({ navigation }: NavigationProp) {
           </View>
         </>
       )}
-      {onFocus &&
-        result.map((item, key) => {
-          return (
-            <View key={key} style={{ alignSelf: "center" }}>
-              <Announcement
-                announcement={item.announcement}
-                details={item.details}
-                pictures={item.pictures}
-              ></Announcement>
-            </View>
-          );
-        })}
+      <Animated.View>
+        {onFocus &&
+          result.map((item, key) => {
+            return (
+              <View key={key} style={{ alignSelf: "center" }}>
+                <Announcement
+                  announcement={item.announcement}
+                  details={item.details}
+                  pictures={item.pictures}
+                ></Announcement>
+              </View>
+            );
+          })}
+      </Animated.View>
     </ScrollView>
   );
   function ListHeaderComponent() {

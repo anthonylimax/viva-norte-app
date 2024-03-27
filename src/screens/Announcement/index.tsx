@@ -45,7 +45,7 @@ export default function AnnouncementScreen({
     return (
       <ScrollView style={styles.view}>
         <HeaderAnnouncement
-          announcementName={announcement.name || "paraiso"}
+          announcementName={announcement.name || ""}
           id={announcement.id_announcement}
         ></HeaderAnnouncement>
 
@@ -77,78 +77,34 @@ export default function AnnouncementScreen({
             horizontal
             data={pictures}
             renderItem={({ item, index }): any => {
-              if (index < 4 || showAll) {
-                return (
-                  <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPress={() => setMainImage(item)}
-                  >
-                    <View
-                      style={{
-                        borderRadius: 10,
-                        height: 50,
-                        marginLeft: index == 4 ? 5 : 0,
-                        overflow: "hidden",
-                      }}
-                    >
-                      <Image
-                        source={{
-                          uri: item.url,
-                        }}
-                        style={{
-                          height: 60,
-                          objectFit: "cover",
-                          width: 60,
-                        }}
-                      />
-                    </View>
-                  </TouchableOpacity>
-                );
-              } else if (index == 4 && !showAll) {
-                return (
-                  <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPress={() => {
-                      setShowAll(true);
+              return (
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={() => setMainImage(item)}
+                >
+                  <View
+                    style={{
+                      backgroundColor: "black",
+                      borderRadius: 10,
+                      height: 50,
+                      marginLeft: 5,
+                      overflow: "hidden",
                     }}
                   >
-                    <View
-                      style={{
-                        position: "relative",
-                        borderRadius: 10,
-                        height: 50,
-                        backgroundColor: "#00000070",
-                        marginLeft: index == 4 ? 5 : 0,
-                        overflow: "hidden",
+                    <Image
+                      source={{
+                        uri: item.url,
                       }}
-                    >
-                      <Image
-                        source={{
-                          uri: item.url,
-                        }}
-                        style={{
-                          opacity: 0.4,
-                          height: 60,
-                          objectFit: "cover",
-                          width: 60,
-                        }}
-                      />
-                      <Text
-                        style={{
-                          position: "absolute",
-                          top: 25,
-                          color: "#FFF",
-                          lineHeight: 10,
-                          left: 20,
-                          zIndex: 3,
-                        }}
-                      >
-                        {pictures.length - index}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                );
-              }
+                      style={{
+                        opacity: 0.9,
+                        height: 60,
+                        objectFit: "cover",
+                        width: 60,
+                      }}
+                    />
+                  </View>
+                </TouchableOpacity>
+              );
             }}
           ></FlatList>
         </View>

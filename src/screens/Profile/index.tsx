@@ -21,7 +21,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { RemoveAllFavorites } from "../../Reducers/FavoriteReducer";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { SingleConsult } from "../../hooks/requestDb";
 type ProfileData = {
   email: string;
   id: string;
@@ -33,11 +32,17 @@ type ProfileData = {
 };
 
 export default function Profile() {
-  const [result, setResult]: [result: AnnouncementDTO[], setResult: any] =
-    useState([]);
-
   const navigator = useNavigation<StackNavigationProp<any>>();
   const [modal, setModal] = useState(false);
+  const DEFAULT = {
+    email: "",
+    id: "",
+    name: "",
+    nasc_data: "",
+    phone: "",
+    password: "",
+    picture: require("./../../../assets/profile_image.png"),
+  };
   const [data, setData]: [data: ProfileData, setData: any] = useState({
     email: "",
     id: "",
@@ -52,7 +57,7 @@ export default function Profile() {
   useEffect(() => {
     async function GetStorage() {
       const data = await AsyncStorage.getItem("token");
-      const json = JSON.parse(data)[0];
+      const json = JSON.parse(data)[0] || DEFAULT;
       setData(json);
       if (data && !profile) {
         dispatch(setLogged(true));
@@ -60,12 +65,6 @@ export default function Profile() {
     }
     GetStorage();
   }, [profile]);
-  useEffect(() => {
-    SingleConsult(search).then((result) => {
-      console.log(result);
-      setResult(result);
-    });
-  }, [search]);
 
   function convertToYear(data: string) {
     let text = "";
@@ -93,41 +92,7 @@ export default function Profile() {
       >
         Aqui você encontra suas informações pessoais da conta
       </Description>
-      <TouchableOpacity
-        onPress={() => setModal(true)}
-        style={{
-          width: 120,
-          height: 120,
-          alignSelf: "center",
-          marginBottom: 40,
-        }}
-      >
-        <Image
-          style={{
-            position: "relative",
-            width: 120,
-            height: 120,
-            alignSelf: "center",
-            margin: 30,
-            borderRadius: 120,
-          }}
-          source={data.picture}
-        />
-        <View
-          style={{
-            position: "absolute",
-            bottom: -30,
-            right: 0,
-            borderRadius: 50,
-            borderWidth: StyleSheet.hairlineWidth + 2,
-            borderColor: "white",
-            backgroundColor: GlobalVariables.color.blue,
-            padding: 7,
-          }}
-        >
-          <FontAwesome6 name="pen" size={10} color={"white"}></FontAwesome6>
-        </View>
-      </TouchableOpacity>
+
       <View style={{ paddingHorizontal: 20, paddingVertical: 5 }}>
         <LabelCredential>Nome</LabelCredential>
         <Style.TextComponent disabled>{data.name}</Style.TextComponent>

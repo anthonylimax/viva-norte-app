@@ -6,6 +6,8 @@ import {
   Text,
   StyleSheet,
   TextInput,
+  Modal,
+  ScrollView,
 } from "react-native";
 import { SafeAreaView, View } from "react-native";
 import Entypo from "react-native-vector-icons/Entypo";
@@ -13,10 +15,10 @@ import { SingleConsult } from "../../hooks/requestDb";
 import Announcement from "../../components/Announcement";
 import { AnnouncementDTO } from "../../DTOs/announcement.type";
 import { GlobalVariables } from "../../styles";
+import FontAwesome6 from "react-native-vector-icons/FontAwesome6";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-export default function Search() {
-  const [search, setSearch] = useState<{ [key: string]: any }>({});
-
+export default function Search({ setModal, data, setData }) {
   const [result, setResult]: [result: AnnouncementDTO[], setResult: any] =
     useState([]);
 
@@ -93,108 +95,100 @@ export default function Search() {
     tv: 1,
   };
 
-  useEffect(() => {
-    SingleConsult(search).then((result) => {
-      console.log(result);
-      setResult(result);
-    });
-  }, [search]);
   return (
-    <SafeAreaView style={style.container}>
-      <View style={style.containerSearch}>
-        <Entypo size={16} style={style.glass} name="magnifying-glass" />
-        <TextInput
-          onChangeText={(e) => {}}
-          placeholder="Pesquise por Bairro ou cidade"
-          style={style.searchBar}
-        ></TextInput>
-      </View>
-      <FlatList
+    <View>
+      <View
         style={{
-          marginTop: 10,
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          width: "100%",
+          height: 60,
+          margin: 20,
         }}
-        data={Object.keys(featuresArray)}
-        horizontal
-        renderItem={({ item, index }) => {
+      >
+        <Pressable onPress={() => setModal(false)}>
+          <FontAwesome6
+            style={{
+              color: "#FFF",
+              padding: 15,
+              borderRadius: 50,
+              backgroundColor: GlobalVariables.color.blue,
+            }}
+            size={20}
+            name="arrow-left"
+          ></FontAwesome6>
+        </Pressable>
+      </View>
+      <View style={style.container}>
+        {Object.keys(featuresArray).map((item, index) => {
           return (
             <Pressable
+              key={index}
+              style={{
+                backgroundColor: Object.keys(data.filters).includes(
+                  searchId[index]
+                )
+                  ? GlobalVariables.color.blue
+                  : "#FFF",
+                borderWidth: StyleSheet.hairlineWidth,
+                borderRadius: 10,
+                borderColor: !Object.keys(data.filters).includes(
+                  searchId[index]
+                )
+                  ? GlobalVariables.color.black
+                  : "#FFF",
+                padding: 10,
+              }}
               onPress={() => {
-                const id = Object.keys(search).find(
+                const id = Object.keys(data.filters).find(
                   (x) => x === searchId[index]
                 );
-
-                console.log("id: " + id);
-                if (Object.keys(search).includes(searchId[index])) {
+                if (Object.keys(data.filters).includes(searchId[index])) {
                   console.log("removing");
-                  let search_ = { ...search };
+                  let search_ = { ...data.filters };
                   delete search_[searchId[index]];
-                  console.log(search_);
-                  setSearch(search_);
+                  setData({ ...data, filters: search_ });
                 } else {
                   console.log("adding");
-                  const object = { ...search };
+                  const object = { ...data.filters };
                   Object.defineProperty(object, searchId[index], {
                     value: 1,
                     writable: true,
                     enumerable: true,
                     configurable: true,
                   });
-                  console.log(search);
-                  setSearch(object);
+                  console.log(object);
+                  setData({ ...data, filters: object });
                 }
-              }}
-              style={{
-                paddingVertical: 10,
-                paddingHorizontal: 20,
-                backgroundColor: Object.keys(search).includes(searchId[index])
-                  ? GlobalVariables.color.blue
-                  : "#FFF",
-                borderWidth: StyleSheet.hairlineWidth,
-                marginLeft: 10,
-                borderRadius: 50,
-                borderColor: GlobalVariables.color.medim_black,
               }}
             >
               <Text
                 style={{
-                  color: Object.keys(search).includes(searchId[index])
-                    ? GlobalVariables.color.white
-                    : "#000",
+                  color: !Object.keys(data.filters).includes(searchId[index])
+                    ? GlobalVariables.color.black
+                    : "#FFF",
                 }}
               >
                 {item}
               </Text>
             </Pressable>
           );
-        }}
-      />
-      <View
-        style={{
-          marginTop: 30,
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        <FlatList
-          data={result}
-          renderItem={({ item }) => {
-            return (
-              <Announcement
-                announcement={item.announcement}
-                details={item.details}
-                pictures={item.pictures}
-              ></Announcement>
-            );
-          }}
-        />
+        })}
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const style = StyleSheet.create({
   container: {
-    padding: 20,
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 5,
+    flexWrap: "wrap",
   },
   glass: {
     position: "absolute",

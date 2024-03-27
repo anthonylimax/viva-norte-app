@@ -87,16 +87,9 @@ export async function SignIn(credentials: {
       date: credentials.date,
     };
 
-    formData.append("content", JSON.stringify(credentialsData));
-
-    const response = await apiURL.post("/createnewuser", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-
+    const response = await apiURL.post("/createnewuser", credentialsData);
     console.log(response.data);
-    return true; // Ou outra manipulação de sucesso
+    return response.data; // Ou outra manipulação de sucesso
   } catch (error) {
     console.error("Erro:", error);
     return false;

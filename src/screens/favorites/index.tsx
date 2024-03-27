@@ -51,7 +51,7 @@ export default function Favorites() {
         <Components.SaveText>Nenhum anuncio salvo.</Components.SaveText>
       )}
       <Components.FavoriteTextMediumBlack>
-        Todos os salvamentos:
+        Todos os salvos:
       </Components.FavoriteTextMediumBlack>
       <FlatList
         data={query}

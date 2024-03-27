@@ -35,6 +35,8 @@ export default function Signin() {
     password: "",
     phone: "",
   });
+
+  const dispatch = useDispatch();
   const [picture, setPicture]: [any, any] = useState();
   const [toSend, setToSend]: [any, any] = useState();
   const openImagePicker = async () => {
@@ -213,14 +215,15 @@ export default function Signin() {
             const result = await SignIn({
               ...credentials,
             });
-            if (result) {
+            console.log(result?.status);
+            if (result?.status === "completed") {
               const res = await VerifyCredentials({
                 email: credentials.email,
                 password: credentials.password,
               });
+              console.log(res);
               if (res) {
                 AsyncStorage.setItem("token", JSON.stringify(res));
-                const dispatch = useDispatch();
                 dispatch(setLogged(true));
                 navigator.navigate("homeComponent");
               }
