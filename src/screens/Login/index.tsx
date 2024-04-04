@@ -47,7 +47,7 @@ export default function Login() {
         ></View>
       </StyledComponents.Header>
       <Image
-        source={require("./../../../assets/logo.png")}
+        source={require("./../../../assets/logo_splash.png")}
         style={{
           alignSelf: "center",
           marginTop: 30,

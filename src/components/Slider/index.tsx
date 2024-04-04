@@ -19,8 +19,9 @@ export default function Slider({ navigation }: NavigationProp) {
         style={{
           objectFit: "contain",
           width: 100,
+          height: 100,
         }}
-        source={require("./../../../assets/logo.png")}
+        source={require("./../../../assets/logo_home.png")}
       />
     </View>
   );

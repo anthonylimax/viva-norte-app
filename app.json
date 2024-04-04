@@ -17,7 +17,7 @@
     ],
     "name": "Vivanorte",
     "slug": "viva-norte",
-    "version": "1.0.0",
+    "version": "1.3.0",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
     "userInterfaceStyle": "ligth",
@@ -26,17 +26,15 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.anthonylimax.vivanorte"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/logo_adaptive.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/logo.png",
+        "backgroundColor": "#ffffff00"
       },
       "permissions": [
         "android.permission.RECORD_AUDIO",

@@ -150,12 +150,12 @@ export default function Profile() {
     >
       <Img
         style={{
-          width: 160,
+          width: 300,
           marginTop: 20,
           objectFit: "contain",
           alignSelf: "center",
         }}
-        source={require("./../../../assets/logo.png")}
+        source={require("./../../../assets/logo_splash.png")}
       ></Img>
       <Text
         style={{
