@@ -38,6 +38,13 @@ export const TextField = styled.TextInput`
   border: 1px solid black;
   border-radius: 12px;
 `;
+export const Text = styled.Text`
+  width: 100%;
+  font-size: 14px;
+  padding: 8px;
+  border: 1px solid black;
+  border-radius: 12px;
+`;
 export const CredentialsField = styled.View`
   margin-top: 40px;
   display: flex;

@@ -77,15 +77,17 @@ export async function SignIn(credentials: {
   date: string;
 }) {
   try {
-    const formData = new FormData();
+    const replacer = credentials.date.split("/");
+    const formattedData = `${replacer[2]}-${replacer[1]}-${replacer[0]}`;
     const credentialsData = {
       name: credentials.name,
       password: credentials.password,
       email: credentials.email,
       cpf: credentials.cpf,
       phone: credentials.phone,
-      date: credentials.date,
+      date: formattedData,
     };
+    console.log(credentialsData);
 
     const response = await apiURL.post("/createnewuser", credentialsData);
     console.log(response.data);

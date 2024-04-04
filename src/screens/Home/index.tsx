@@ -10,6 +10,7 @@ import {
   Image,
   LayoutAnimation,
   Modal,
+  Dimensions,
 } from "react-native";
 import Announcement from "../../components/Announcement";
 import { AnnouncementDTO } from "../../DTOs/announcement.type";
@@ -121,9 +122,10 @@ export default function Home({ navigation }: NavigationProp) {
             style={{ width: 324, alignSelf: "center" }}
             data={staticSlides}
             horizontal
+            pagingEnabled
             accessibilityLabel="slider"
             showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => {
+            renderItem={({ item, index }) => {
               return (
                 <View>
                   <Image

@@ -6,13 +6,15 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import FontAwesome6 from "react-native-vector-icons/FontAwesome6";
 import Favorites from "./src/screens/favorites";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  TransitionPresets,
+  createStackNavigator,
+} from "@react-navigation/stack";
 import NotificationScreen from "./src/screens/NotificationsScreen";
 import AnnouncementScreen from "./src/screens/Announcement";
 import Login from "./src/screens/Login";
 import Profile from "./src/screens/Profile";
 import Signin from "./src/screens/Signin";
-import { useEffect } from "react";
 
 export default function App() {
   const Tab = createBottomTabNavigator();
@@ -22,6 +24,7 @@ export default function App() {
         <Tab.Navigator
           screenOptions={({ route, navigation }) => ({
             headerShown: false,
+
             tabBarShowLabel: false,
             tabBarIcon: ({ focused, color, size }) => {
               return (
@@ -46,13 +49,20 @@ export default function App() {
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
+          ...TransitionPresets.SlideFromRightIOS,
         }}
       >
         <Stack.Screen name="homeComponent" component={Home} />
         <Stack.Screen name="login" component={Login} />
         <Stack.Screen name="signin" component={Signin} />
         <Stack.Screen name="notification" component={NotificationScreen} />
-        <Stack.Screen name="announcement" component={AnnouncementScreen} />
+        <Stack.Screen
+          options={{
+            ...TransitionPresets.ModalSlideFromBottomIOS,
+          }}
+          name="announcement"
+          component={AnnouncementScreen}
+        />
       </Stack.Navigator>
     );
   }

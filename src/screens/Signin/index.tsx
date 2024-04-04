@@ -15,6 +15,7 @@ import {
   launchCameraAsync,
   launchImageLibraryAsync,
 } from "expo-image-picker";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import * as Style from "./../Login/style";
 import { useState } from "react";
 import Entypo from "react-native-vector-icons/Entypo";
@@ -39,6 +40,7 @@ export default function Signin() {
   const dispatch = useDispatch();
   const [picture, setPicture]: [any, any] = useState();
   const [toSend, setToSend]: [any, any] = useState();
+  const [showCalendar, setShowCalendar] = useState(false);
   const openImagePicker = async () => {
     let result = await launchImageLibraryAsync({
       mediaTypes: MediaTypeOptions.Images,
@@ -191,14 +193,32 @@ export default function Signin() {
         </View>
         <View style={{ paddingHorizontal: 20, paddingVertical: 5 }}>
           <LabelCredential>Data de nascimento</LabelCredential>
-          <Style.TextField
-            onChangeText={(e) => {
-              setCredentials({ ...credentials, date: e });
-            }}
-            textContentType="birthdateDay"
-            keyboardType="email-address"
-          ></Style.TextField>
+          <Style.Text onPress={() => setShowCalendar(true)}>
+            {credentials.date}
+          </Style.Text>
         </View>
+        {showCalendar && (
+          <DateTimePicker
+            mode={"date"}
+            onChange={(event, selectedDate) => {
+              console.log(event, selectedDate);
+              setShowCalendar(false);
+              setCredentials({
+                ...credentials,
+                date: `${
+                  selectedDate.getDate() > 9
+                    ? selectedDate.getDate()
+                    : "0" + selectedDate.getDate()
+                }/${
+                  selectedDate.getMonth() > 9
+                    ? selectedDate.getMonth()
+                    : "0" + selectedDate.getMonth()
+                }/${selectedDate.getFullYear()}`,
+              });
+            }}
+            value={new Date()}
+          ></DateTimePicker>
+        )}
         <View style={{ paddingHorizontal: 20, paddingVertical: 5 }}>
           <LabelCredential>Password</LabelCredential>
           <Style.TextField

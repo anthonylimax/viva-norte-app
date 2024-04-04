@@ -65,6 +65,7 @@ export default function Announcement(obj: AnnouncementDTO) {
           <Component.CarouselImagesAnnouncement
             scrollEventThrottle={16}
             onScroll={HandleScroller}
+            pagingEnabled
             showsHorizontalScrollIndicator={false}
             horizontal
           >
