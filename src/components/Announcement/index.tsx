@@ -110,7 +110,7 @@ export default function Announcement(obj: AnnouncementDTO) {
                   </Component.lastBallContainer>
                 );
               }
-              return null; // adicionado para evitar um aviso de 'unreachable code'
+              return null;
             })}
           </Component.AlignerBallCaurosel>
         </View>

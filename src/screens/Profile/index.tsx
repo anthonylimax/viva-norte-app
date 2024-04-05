@@ -14,7 +14,7 @@ import { Description, GlobalVariables, Header, TextField } from "../../styles";
 import { LabelCredential, TextTitle } from "../Login/style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image } from "expo-image";
-import { Component, useEffect, useState } from "react";
+import { Component, useEffect, useLayoutEffect, useState } from "react";
 import FontAwesome6 from "react-native-vector-icons/FontAwesome6";
 import { setLogged } from "../../Reducers/LoggedReducer";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,6 +33,7 @@ type ProfileData = {
 
 export default function Profile() {
   const navigator = useNavigation<StackNavigationProp<any>>();
+
   const [modal, setModal] = useState(false);
   const DEFAULT = {
     email: "",

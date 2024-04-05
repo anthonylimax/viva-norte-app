@@ -11,6 +11,8 @@ import {
   LayoutAnimation,
   Modal,
   Dimensions,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
 } from "react-native";
 import Announcement from "../../components/Announcement";
 import { AnnouncementDTO } from "../../DTOs/announcement.type";
@@ -55,6 +57,14 @@ export default function Home({ navigation }: NavigationProp) {
       image: require("./../../../assets/slide.png"),
     },
   ];
+  const [balls, setBalls]: [boolean[], any] = useState([]);
+  useLayoutEffect(() => {
+    const insertBalls: boolean[] = [];
+    staticSlides.forEach((e, key) => {
+      key == 0 ? insertBalls.push(true) : insertBalls.push(false);
+    });
+    setBalls(insertBalls);
+  }, []);
   useLayoutEffect(() => {
     GetAll()
       .then((x) => x.data)
@@ -74,6 +84,18 @@ export default function Home({ navigation }: NavigationProp) {
       })
       .catch((e) => console.log(e));
   }, [search]);
+  function HandleScroller(event: NativeSyntheticEvent<NativeScrollEvent>) {
+    const finalBall = Math.round(event.nativeEvent.contentOffset.x / 299);
+    const newArray = [...balls];
+    newArray.forEach((element, key) => {
+      if (key == finalBall) {
+        newArray[key] = true;
+      } else {
+        newArray[key] = false;
+      }
+    });
+    setBalls(newArray);
+  }
   return (
     <ScrollView style={style.view}>
       <Slider navigation={navigation}></Slider>
@@ -124,6 +146,7 @@ export default function Home({ navigation }: NavigationProp) {
             horizontal
             pagingEnabled
             accessibilityLabel="slider"
+            onScroll={HandleScroller}
             showsHorizontalScrollIndicator={false}
             renderItem={({ item, index }) => {
               return (
@@ -138,25 +161,11 @@ export default function Home({ navigation }: NavigationProp) {
                       opacity: 0.8,
                     }}
                   />
-                  <Text
-                    style={{
-                      width: 200,
-                      textAlign: "center",
-                      position: "absolute",
-                      top: 70,
-                      fontWeight: "700",
-                      letterSpacing: 1,
-                      color: Component.GlobalVariables.color.white,
-                      right: 62,
-                      lineHeight: 14,
-                    }}
-                  >
-                    {item.text}
-                  </Text>
                 </View>
               );
             }}
           ></FlatList>
+
           <View
             style={{
               width: "78%",
